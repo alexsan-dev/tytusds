@@ -5,6 +5,8 @@ let className: string = 'ListaSimple'
 let isLikeStack: boolean = false
 let isCircular: boolean = false
 let isSimple: boolean = true
+let lastPriority: number = 0
+let isPriority: boolean = false
 
 // TIPOS
 type InsertMode = 'start' | 'end' | 'order'
@@ -30,11 +32,12 @@ const setLinearStructure = (
 	circular: boolean = false,
 	likeStack: boolean = false,
 	insertModeType: InsertMode = 'end',
-	isPriority?: boolean,
+	isPriorityQueue: boolean = false,
 ) => {
 	// CONFIGURAR GLOBALES
 	linearStructure = newLinearStructure
 	className = linearClassName
+	isPriority = isPriorityQueue
 	insertMode = insertModeType
 	isLikeStack = likeStack
 	isCircular = circular
@@ -49,7 +52,7 @@ const setLinearStructure = (
 		linearStructure.insertar(isPriority ? 2 : 5, isPriority ? 1 : undefined)
 
 		// AGREGAR UNO EXTRA PARA PILAS Y COLAS
-		if (isLikeStack)
+		if (isLikeStack) 
 			linearStructure.insertar(isPriority ? 1 : 6, isPriority ? 0 : undefined)
 	}
 
@@ -68,7 +71,7 @@ const saveJSONLinearFile = () => {
 			linearIndex < linearStructureLength;
 			linearIndex++
 		) {
-			valores.push(linearStructure.obtener(linearIndex).valor)
+			valores.push(linearStructure.obtener(linearIndex)?.valor)
 		}
 
 		// SUBIR
@@ -102,7 +105,10 @@ fileUploadCallback = (json: JSONInputFile) => {
 				repeatValues ||
 				(!repeatValues && linearStructure.buscar(valor.toString()) === null)
 			) {
-				newNodeValue = valor.toString()
+				// @ts-ignore
+				newNodeValue = isPriority ? valor.valor.toString() : valor.toString()
+				// @ts-ignore
+				lastPriority = isPriority ? valor.prioridad : lastPriority
 				addNode(false)
 			}
 		}
@@ -390,9 +396,15 @@ const addNode = (withAnimation: boolean = true) => {
 
 			const addOnStructure = () => {
 				if (linearStructure) {
-					if (insertMode === 'start' && 'push' in linearStructure)
-						linearStructure.push(newNodeValue)
-					else if (insertMode === 'end') linearStructure.insertar(newNodeValue)
+					if (insertMode === 'start') {
+						if ('push' in linearStructure) linearStructure.push(newNodeValue)
+						if (isPriority)
+							linearStructure.insertar(newNodeValue, lastPriority)
+					} else if (insertMode === 'end')
+						linearStructure.insertar(
+							newNodeValue,
+							isPriority ? lastPriority : undefined,
+						)
 
 					// RE DIMENSION
 					linearStructureLength = linearStructure.getTamaño()
@@ -415,7 +427,7 @@ const addNode = (withAnimation: boolean = true) => {
 					: insertMode === 'end'
 					? 'insertar'
 					: 'insertar',
-				newNodeValue,
+				isPriority ? `${newNodeValue},${0}` : newNodeValue,
 			)
 
 			// OCULTAR MENU

@@ -1,2 +1,2 @@
 "use strict";
-setLinearStructure(new PriorityQueue(), 'ColaPrioridad', true, false, true, 'start', true);
+setLinearStructure(new PriorityQueue(), 'ColaP', true, false, true, 'start', true);

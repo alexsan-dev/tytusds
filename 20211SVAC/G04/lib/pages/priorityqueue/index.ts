@@ -1,6 +1,6 @@
 setLinearStructure(
 	new PriorityQueue(),
-	'ColaPrioridad',
+	'ColaP',
 	true,
 	false,
 	true,

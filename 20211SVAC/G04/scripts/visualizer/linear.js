@@ -5,6 +5,8 @@ var className = 'ListaSimple';
 var isLikeStack = false;
 var isCircular = false;
 var isSimple = true;
+var lastPriority = 0;
+var isPriority = false;
 var insertMode = 'end';
 canvasBannerDif = 110;
 var nodeScaleCounter = 0;
@@ -12,12 +14,14 @@ var nodeScaleIndex = -1;
 var opacityCounter = 0;
 var deleteIndex = -1;
 var opacityEndCallback = function () { };
-var setLinearStructure = function (newLinearStructure, linearClassName, simple, circular, likeStack, insertModeType, isPriority) {
+var setLinearStructure = function (newLinearStructure, linearClassName, simple, circular, likeStack, insertModeType, isPriorityQueue) {
     if (circular === void 0) { circular = false; }
     if (likeStack === void 0) { likeStack = false; }
     if (insertModeType === void 0) { insertModeType = 'end'; }
+    if (isPriorityQueue === void 0) { isPriorityQueue = false; }
     linearStructure = newLinearStructure;
     className = linearClassName;
+    isPriority = isPriorityQueue;
     insertMode = insertModeType;
     isLikeStack = likeStack;
     isCircular = circular;
@@ -36,10 +40,11 @@ var setLinearStructure = function (newLinearStructure, linearClassName, simple, 
         canvasBannerDif += 20;
 };
 var saveJSONLinearFile = function () {
+    var _a;
     if (linearStructure) {
         var valores = [];
         for (var linearIndex = 0; linearIndex < linearStructureLength; linearIndex++) {
-            valores.push(linearStructure.obtener(linearIndex).valor);
+            valores.push((_a = linearStructure.obtener(linearIndex)) === null || _a === void 0 ? void 0 : _a.valor);
         }
         saveJSONFile(valores);
     }
@@ -56,7 +61,8 @@ fileUploadCallback = function (json) {
         if (linearStructure) {
             if (repeatValues ||
                 (!repeatValues && linearStructure.buscar(valor.toString()) === null)) {
-                newNodeValue = valor.toString();
+                newNodeValue = isPriority ? valor.valor.toString() : valor.toString();
+                lastPriority = isPriority ? valor.prioridad : lastPriority;
                 addNode(false);
             }
         }
@@ -232,10 +238,14 @@ var addNode = function (withAnimation) {
             nodeScaleIndex = -1;
             var addOnStructure = function () {
                 if (linearStructure) {
-                    if (insertMode === 'start' && 'push' in linearStructure)
-                        linearStructure.push(newNodeValue);
+                    if (insertMode === 'start') {
+                        if ('push' in linearStructure)
+                            linearStructure.push(newNodeValue);
+                        if (isPriority)
+                            linearStructure.insertar(newNodeValue, lastPriority);
+                    }
                     else if (insertMode === 'end')
-                        linearStructure.insertar(newNodeValue);
+                        linearStructure.insertar(newNodeValue, isPriority ? lastPriority : undefined);
                     linearStructureLength = linearStructure.getTamaño();
                     setElementsLength(linearStructureLength);
                 }
@@ -248,7 +258,7 @@ var addNode = function (withAnimation) {
                 ? 'push'
                 : insertMode === 'end'
                     ? 'insertar'
-                    : 'insertar', newNodeValue);
+                    : 'insertar', isPriority ? newNodeValue + "," + 0 : newNodeValue);
             hideNavMenu(1);
             removeBanner();
         }

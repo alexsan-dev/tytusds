@@ -67,6 +67,16 @@ class PriorityQueue {
 		}
 	}
 
+	pop() {
+		if (this.raiz != null) {
+			let valor = this.raiz.valor
+			this.raiz = this.raiz.siguiente
+			this.tamaño--
+			return valor
+		}
+		return null
+	}
+
 	//Buscar un valor en la lista
 	buscar(valor: any) {
 		if (this.raiz != null) {

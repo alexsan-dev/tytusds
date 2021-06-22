@@ -56,6 +56,10 @@ var onChangeUploadInput = function (ev) {
         var text = reader.result;
         var json = JSON.parse(typeof text === 'string' ? text : '{}');
         globalJSONInput = json;
+        if (globalJSONInput.repeticion)
+            repeatValues = globalJSONInput.repeticion;
+        if (globalJSONInput.animacion)
+            ANIMATION_VELOCITY = globalJSONInput.animacion;
         fileUploadCallback(json);
     };
     if (file) {

@@ -61,6 +61,9 @@ const onChangeUploadInput = (ev: Event): void => {
 			typeof text === 'string' ? text : '{}',
 		) as JSONInputFile
 		globalJSONInput = json
+		if (globalJSONInput.repeticion) repeatValues = globalJSONInput.repeticion
+		if (globalJSONInput.animacion)
+			ANIMATION_VELOCITY = globalJSONInput.animacion
 		fileUploadCallback(json)
 	}
 

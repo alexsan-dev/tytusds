@@ -42,6 +42,15 @@ var PriorityQueue = (function () {
             }
         }
     };
+    PriorityQueue.prototype.pop = function () {
+        if (this.raiz != null) {
+            var valor = this.raiz.valor;
+            this.raiz = this.raiz.siguiente;
+            this.tamaño--;
+            return valor;
+        }
+        return null;
+    };
     PriorityQueue.prototype.buscar = function (valor) {
         if (this.raiz != null) {
             var aux = this.raiz;
