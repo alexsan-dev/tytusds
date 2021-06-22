@@ -33,6 +33,45 @@ class ArbolBinario {
 		return this.altura(der)
 	}
 
+	obtener(valor: any) {
+		let searchNode = null
+		if (this.raiz !== null) {
+			const stack = [this.raiz]
+			while (stack.length > 0) {
+				const node = stack.shift()
+				if (node.valor.toString() === valor) {
+					searchNode = node
+				} else {
+					if (node.izquierdo) stack.push(node.izquierdo)
+					if (node.derecho) stack.push(node.derecho)
+				}
+			}
+		}
+
+		return searchNode
+	}
+
+	toArray() {
+		if (this.raiz !== null) {
+			const stack = [this.raiz]
+			const stackCopy = [this.raiz.valor]
+
+			while (stack.length > 0) {
+				const node = stack.shift()
+				if (node.izquierdo) {
+					stackCopy.push(node.izquierdo.valor)
+					stack.push(node.izquierdo)
+				}
+				if (node.derecho) {
+					stackCopy.push(node.derecho.valor)
+					stack.push(node.derecho)
+				}
+			}
+
+			return stackCopy
+		} else return []
+	}
+
 	//Insertar un valor--------------------------------------------------------------->
 	insertar(valor: any) {
 		this.raiz = this.insertarNodo(valor, this.raiz)

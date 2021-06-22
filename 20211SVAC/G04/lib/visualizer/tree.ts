@@ -56,6 +56,19 @@ const setTreeStructure = (
 	}
 }
 
+// GUARDAR ARCHIVO
+const saveJSONTreeFile = () => {
+	if (treeStructure) {
+		if ('toArray' in treeStructure) {
+			// CONVERTIR A ARREGLO
+			const valores: (string | number)[] = treeStructure.toArray()
+
+			// SUBIR
+			saveJSONFile(valores)
+		}
+	}
+}
+
 // LEER ARCHIVO
 fileUploadCallback = (json: JSONInputFile) => {
 	const { valores } = json
@@ -413,6 +426,34 @@ const updateNodeOnTree = () => {
 		// OCULTAR MENU
 		hideNavMenu(1)
 		removeBanner()
+	}
+}
+
+// BUSCAR NODO
+const findNodeOnTree = () => {
+	if (oldNodeValue.length > 0) {
+		if (treeStructure) {
+			if ('obtener' in treeStructure) {
+				const searchedNode = treeStructure.obtener(oldNodeValue.toString())
+				if (searchedNode) {
+					// AGREGAR MUESTRA DE CÓDIGO
+					addTestCode('obtener', `${oldNodeValue}`)
+
+					// OCULTAR MENU
+					hideNavMenu(1)
+					removeBanner()
+
+					// ALERTA
+					alert(
+						`Nodo encontrado:\nValor: ${oldNodeValue}\nAltura: ${
+							searchedNode.altura
+						}\nIzquierdo: ${searchedNode.izquierdo?.valor || null}\nDerecho: ${
+							searchedNode.derecho?.valor || null
+						}`,
+					)
+				} else alert('Nodo no encontrado')
+			}
+		}
 	}
 }
 

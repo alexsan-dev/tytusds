@@ -42,6 +42,14 @@ var setTreeStructure = function (treeInstance, instanceClassName, bTreeInstance)
         bTreeStructure.insertar(10);
     }
 };
+var saveJSONTreeFile = function () {
+    if (treeStructure) {
+        if ('toArray' in treeStructure) {
+            var valores = treeStructure.toArray();
+            saveJSONFile(valores);
+        }
+    }
+};
 fileUploadCallback = function (json) {
     var valores = json.valores;
     if (treeStructure)
@@ -239,6 +247,24 @@ var updateNodeOnTree = function () {
         addTestCode('actualizar', oldNodeValue + "," + newNodeValue);
         hideNavMenu(1);
         removeBanner();
+    }
+};
+var findNodeOnTree = function () {
+    var _a, _b;
+    if (oldNodeValue.length > 0) {
+        if (treeStructure) {
+            if ('obtener' in treeStructure) {
+                var searchedNode = treeStructure.obtener(oldNodeValue.toString());
+                if (searchedNode) {
+                    addTestCode('obtener', "" + oldNodeValue);
+                    hideNavMenu(1);
+                    removeBanner();
+                    alert("Nodo encontrado:\nValor: " + oldNodeValue + "\nAltura: " + searchedNode.altura + "\nIzquierdo: " + (((_a = searchedNode.izquierdo) === null || _a === void 0 ? void 0 : _a.valor) || null) + "\nDerecho: " + (((_b = searchedNode.derecho) === null || _b === void 0 ? void 0 : _b.valor) || null));
+                }
+                else
+                    alert('Nodo no encontrado');
+            }
+        }
     }
 };
 var onChangeInputGrade = function (ev) {
