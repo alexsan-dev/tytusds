@@ -14,6 +14,9 @@ var Queue = (function () {
         this.tamaño = 0;
         this.nodoActual = null;
     }
+    Queue.prototype.getSize = function () {
+        return this.tamaño;
+    };
     Queue.prototype.vacia = function () {
         if (this.raiz == null) {
             return true;
@@ -27,7 +30,8 @@ var Queue = (function () {
             this.tamaño++;
         }
         else {
-            while (this.raiz.siguiente != null && this.raiz.siguiente.priority < priority) {
+            while (this.raiz.siguiente != null &&
+                this.raiz.siguiente.priority < priority) {
                 this.raiz = this.raiz.siguiente;
             }
             aux.siguiente = this.raiz.siguiente;

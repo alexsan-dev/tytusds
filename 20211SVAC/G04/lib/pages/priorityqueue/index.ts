@@ -1,91 +1,77 @@
-class NodoSimpleQ{
+class NodoSimpleQ {
+	public valor: any
 
-    public valor: any
+	public siguiente: any
 
-    public siguiente: any
+	public anterior: any
 
-    public anterior: any
+	public priority: number
 
-    public priority:number
+	constructor(valor: any, priority: number) {
+		this.priority = priority
 
-    constructor(valor:any,priority:number){
-        
-        this.priority = priority
-        
-        this.valor = valor
+		this.valor = valor
 
-        this.siguiente = null
+		this.siguiente = null
 
-        this.anterior = null
-    }
+		this.anterior = null
+	}
 }
 
-class Queue{
+class Queue {
+	private raiz: any
 
-    private raiz: any
+	private tamaño: number
 
-    private tamaño: number
+	public nodoActual: any
 
-    public nodoActual: any
+	constructor() {
+		this.raiz = null
 
+		this.tamaño = 0
 
+		this.nodoActual = null
+	}
 
-    constructor(){
+	// OBTENER TAMAÑO
+	getSize() {
+		return this.tamaño
+	}
 
-        this.raiz = null
+	//Validar si la cola esta vacia
 
-        this.tamaño = 0 
+	vacia() {
+		if (this.raiz == null) {
+			return true
+		}
+	}
 
-        this.nodoActual = null
-    }
+	//Encolar caracter con prioridad
 
-    //Validar si la cola esta vacia
-    
-    vacia(){
+	encolar(valor: any, priority: any) {
+		let aux = new NodoSimpleQ(valor, priority)
 
-        if (this.raiz == null){
+		if (this.raiz.priority > priority) {
+			aux.siguiente = this.raiz
 
-            return true
-        }
+			this.raiz = aux
 
-    }
+			this.tamaño++
+		} else {
+			while (
+				this.raiz.siguiente != null &&
+				this.raiz.siguiente.priority < priority
+			) {
+				this.raiz = this.raiz.siguiente
+			}
 
-    //Encolar caracter con prioridad
+			aux.siguiente = this.raiz.siguiente
 
-    encolar(valor:any,priority:any){
+			this.raiz.siguiente = aux
 
-        let aux = new NodoSimpleQ(valor,priority)
+			this.tamaño++
+		}
 
-
-        if (this.raiz.priority > priority){
-
-            aux.siguiente = this.raiz
-
-            this.raiz = aux
-
-            this.tamaño++
-        }
-        else{
-
-            while(this.raiz.siguiente != null && this.raiz.siguiente.priority < priority){
-                
-                this.raiz = this.raiz.siguiente
-            }
-
-            aux.siguiente = this.raiz.siguiente
-
-            this.raiz.siguiente = aux;
-
-            this.tamaño++
-
-        }
-
-        return this.raiz
-    }
-
-
-
-
-
-
+		return this.raiz
+	}
 }
