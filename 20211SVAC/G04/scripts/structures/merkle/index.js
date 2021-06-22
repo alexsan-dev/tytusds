@@ -25,7 +25,7 @@ var ArbolMerkle = (function () {
         var H = 64;
         var total = 1;
         for (var i = 0; i < valor.length; i++) {
-            total += (H * total << 1) + valor.charCodeAt(i);
+            total += ((H * total) << 1) + valor.charCodeAt(i);
         }
         return total;
     };
