@@ -9,7 +9,7 @@ var indexLinksList = [
     { name: 'Lista circular doble', url: 'public/pages/circulardoublelist' },
     { name: 'Pila', url: 'public/pages/stack' },
     { name: 'Cola', url: 'public/pages/queue' },
-    { name: 'Cola de prioridad', url: 'public/pages/queue' },
+    { name: 'Cola de prioridad', url: 'public/pages/priorityqueue' },
     { name: 'Ordenamiento burbuja', url: 'public/pages/bubblesort' },
     { name: 'Ordenamiento por selección', url: 'public/pages/selectionsort' },
     { name: 'Ordenamiento por inserción', url: 'public/pages/insertionsort' },
