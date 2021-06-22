@@ -37,17 +37,13 @@ var setTreeStructure = function (treeInstance, instanceClassName, bTreeInstance)
         bTreeStructure.insertar(5);
         bTreeStructure.insertar(6);
         bTreeStructure.insertar(7);
-        bTreeStructure.insertar(8);
-        bTreeStructure.insertar(9);
-        bTreeStructure.insertar(10);
     }
 };
 var saveJSONTreeFile = function () {
-    if (treeStructure) {
-        if ('toArray' in treeStructure) {
-            var valores = treeStructure.toArray();
-            saveJSONFile(valores);
-        }
+    var _a;
+    if (treeStructure || bTreeStructure) {
+        var valores = (_a = (isBTree ? bTreeStructure : treeStructure)) === null || _a === void 0 ? void 0 : _a.toArray();
+        saveJSONFile(valores);
     }
 };
 fileUploadCallback = function (json) {
@@ -73,7 +69,7 @@ drawInCanvas = function () {
     if (canvasCtx) {
         canvasCtx.save();
         canvasCtx.restore();
-        canvasCtx.translate(-Math.pow(2, maxTreeHeight) * 50 - 640, maxTreeHeight * -41);
+        canvasCtx.translate(-Math.pow(2, maxTreeHeight) * 50 - (isBTree ? 455 : 640), maxTreeHeight * -41 - (isBTree ? 130 : 0));
         if (treeStructure) {
             var queue = treeStructure
                 ? [treeStructure.raiz]
@@ -210,16 +206,19 @@ drawInCanvas = function () {
 };
 var addNodeOnTree = function () {
     if (newNodeValue.length > 0) {
-        if (isBTree && bTreeStructure)
-            bTreeStructure.insertar(newNodeValue);
-        else if (treeStructure) {
-            treeStructure.insertar(newNodeValue);
-            maxTreeHeight = treeStructure.raiz.altura;
+        if (treeStructure || isBTree) {
+            var finalStructure = isBTree ? bTreeStructure : treeStructure;
+            var searchedNode = finalStructure === null || finalStructure === void 0 ? void 0 : finalStructure.obtener(newNodeValue);
+            if (repeatValues || (!repeatValues && searchedNode === null)) {
+                finalStructure === null || finalStructure === void 0 ? void 0 : finalStructure.insertar(newNodeValue);
+                if (!isBTree && treeStructure)
+                    maxTreeHeight = treeStructure.raiz.altura;
+                setElementsLength(treeElementsLength + 1);
+                addTestCode('insertar', newNodeValue);
+                hideNavMenu(1);
+                removeBanner();
+            }
         }
-        setElementsLength(treeElementsLength + 1);
-        addTestCode('insertar', newNodeValue);
-        hideNavMenu(1);
-        removeBanner();
     }
 };
 var removeNodeOnTree = function () {
@@ -252,18 +251,20 @@ var updateNodeOnTree = function () {
 var findNodeOnTree = function () {
     var _a, _b;
     if (oldNodeValue.length > 0) {
-        if (treeStructure) {
-            if ('obtener' in treeStructure) {
-                var searchedNode = treeStructure.obtener(oldNodeValue.toString());
-                if (searchedNode) {
-                    addTestCode('obtener', "" + oldNodeValue);
-                    hideNavMenu(1);
-                    removeBanner();
-                    alert("Nodo encontrado:\nValor: " + oldNodeValue + "\nAltura: " + searchedNode.altura + "\nIzquierdo: " + (((_a = searchedNode.izquierdo) === null || _a === void 0 ? void 0 : _a.valor) || null) + "\nDerecho: " + (((_b = searchedNode.derecho) === null || _b === void 0 ? void 0 : _b.valor) || null));
-                }
-                else
-                    alert('Nodo no encontrado');
+        if (treeStructure || isBTree) {
+            var searchedNode = isBTree
+                ? bTreeStructure === null || bTreeStructure === void 0 ? void 0 : bTreeStructure.obtener(oldNodeValue)
+                : treeStructure === null || treeStructure === void 0 ? void 0 : treeStructure.obtener(oldNodeValue.toString());
+            if (searchedNode) {
+                addTestCode('obtener', "" + oldNodeValue);
+                hideNavMenu(1);
+                removeBanner();
+                alert("Nodo encontrado:\nValor: " + (isBTree ? searchedNode.valores.join(',') : oldNodeValue) + "\n" + (isBTree ? 'Grado' : 'Altura') + ": " + (isBTree ? searchedNode.grado : searchedNode.altura) + "\n" + (isBTree
+                    ? ''
+                    : "Izquierdo: " + (((_a = searchedNode.izquierdo) === null || _a === void 0 ? void 0 : _a.valor) || null) + "\nDerecho: " + (((_b = searchedNode.derecho) === null || _b === void 0 ? void 0 : _b.valor) || null)));
             }
+            else
+                alert('Nodo no encontrado');
         }
     }
 };

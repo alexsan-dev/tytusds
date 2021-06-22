@@ -85,7 +85,7 @@ class ArbolBinario {
 			if (valor < raiz.valor) {
 				//Si el valor es menor ir a lado izquierdo
 				raiz.izquierdo = this.insertarNodo(valor, raiz.izquierdo)
-			} else if (valor > raiz.valor) {
+			} else if (valor >= raiz.valor) {
 				//Si el valor es mayor ir a lado derecho
 				raiz.derecho = this.insertarNodo(valor, raiz.derecho)
 			}

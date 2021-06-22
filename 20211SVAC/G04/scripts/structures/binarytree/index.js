@@ -74,7 +74,7 @@ var ArbolBinario = (function () {
             if (valor < raiz.valor) {
                 raiz.izquierdo = this.insertarNodo(valor, raiz.izquierdo);
             }
-            else if (valor > raiz.valor) {
+            else if (valor >= raiz.valor) {
                 raiz.derecho = this.insertarNodo(valor, raiz.derecho);
             }
         }

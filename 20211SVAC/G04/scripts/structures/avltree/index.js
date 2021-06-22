@@ -29,6 +29,45 @@ var ArbolAvl = (function () {
     ArbolAvl.prototype.insertar = function (valor) {
         this.raiz = this.insertarNodo(valor, this.raiz);
     };
+    ArbolAvl.prototype.obtener = function (valor) {
+        var searchNode = null;
+        if (this.raiz !== null) {
+            var stack = [this.raiz];
+            while (stack.length > 0) {
+                var node = stack.shift();
+                if (node.valor.toString() === valor) {
+                    searchNode = node;
+                }
+                else {
+                    if (node.izquierdo)
+                        stack.push(node.izquierdo);
+                    if (node.derecho)
+                        stack.push(node.derecho);
+                }
+            }
+        }
+        return searchNode;
+    };
+    ArbolAvl.prototype.toArray = function () {
+        if (this.raiz !== null) {
+            var stack = [this.raiz];
+            var stackCopy = [this.raiz.valor];
+            while (stack.length > 0) {
+                var node = stack.shift();
+                if (node.izquierdo) {
+                    stackCopy.push(node.izquierdo.valor);
+                    stack.push(node.izquierdo);
+                }
+                if (node.derecho) {
+                    stackCopy.push(node.derecho.valor);
+                    stack.push(node.derecho);
+                }
+            }
+            return stackCopy;
+        }
+        else
+            return [];
+    };
     ArbolAvl.prototype.insertarNodo = function (valor, raiz) {
         if (raiz == null) {
             raiz = new NodoAvl(valor);
@@ -38,7 +77,7 @@ var ArbolAvl = (function () {
                 raiz.izquierdo = this.insertarNodo(valor, raiz.izquierdo);
                 raiz.izquierdo = this.equilibrar(raiz.izquierdo);
             }
-            else if (valor > raiz.valor) {
+            else if (valor >= raiz.valor) {
                 raiz.derecho = this.insertarNodo(valor, raiz.derecho);
                 raiz.derecho = this.equilibrar(raiz.derecho);
             }

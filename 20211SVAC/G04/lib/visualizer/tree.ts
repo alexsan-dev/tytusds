@@ -50,22 +50,19 @@ const setTreeStructure = (
 		bTreeStructure.insertar(5)
 		bTreeStructure.insertar(6)
 		bTreeStructure.insertar(7)
-		bTreeStructure.insertar(8)
-		bTreeStructure.insertar(9)
-		bTreeStructure.insertar(10)
 	}
 }
 
 // GUARDAR ARCHIVO
 const saveJSONTreeFile = () => {
-	if (treeStructure) {
-		if ('toArray' in treeStructure) {
-			// CONVERTIR A ARREGLO
-			const valores: (string | number)[] = treeStructure.toArray()
+	if (treeStructure || bTreeStructure) {
+		// CONVERTIR A ARREGLO
+		const valores: any = (isBTree ? bTreeStructure : treeStructure)
+			// @ts-ignore
+			?.toArray()
 
-			// SUBIR
-			saveJSONFile(valores)
-		}
+		// SUBIR
+		saveJSONFile(valores)
 	}
 }
 
@@ -106,8 +103,8 @@ drawInCanvas = () => {
 		canvasCtx.save()
 		canvasCtx.restore()
 		canvasCtx.translate(
-			-Math.pow(2, maxTreeHeight) * 50 - 640,
-			maxTreeHeight * -41,
+			-Math.pow(2, maxTreeHeight) * 50 - (isBTree ? 455 : 640),
+			maxTreeHeight * -41 - (isBTree ? 130 : 0),
 		)
 
 		if (treeStructure) {
@@ -368,22 +365,26 @@ drawInCanvas = () => {
 // AGREGAR NODO
 const addNodeOnTree = () => {
 	if (newNodeValue.length > 0) {
-		// INSERTAR
-		if (isBTree && bTreeStructure) bTreeStructure.insertar(newNodeValue)
-		else if (treeStructure) {
-			treeStructure.insertar(newNodeValue)
-			maxTreeHeight = treeStructure.raiz.altura
+		if (treeStructure || isBTree) {
+			// @ts-ignore
+			const finalStructure = isBTree ? bTreeStructure : treeStructure
+			let searchedNode = finalStructure?.obtener(newNodeValue)
+
+			if (repeatValues || (!repeatValues && searchedNode === null)) {
+				finalStructure?.insertar(newNodeValue)
+				if (!isBTree && treeStructure) maxTreeHeight = treeStructure.raiz.altura
+
+				// RE DIMENSION
+				setElementsLength(treeElementsLength + 1)
+
+				// AGREGAR MUESTRA DE CÓDIGO
+				addTestCode('insertar', newNodeValue)
+
+				// OCULTAR MENU
+				hideNavMenu(1)
+				removeBanner()
+			}
 		}
-
-		// RE DIMENSION
-		setElementsLength(treeElementsLength + 1)
-
-		// AGREGAR MUESTRA DE CÓDIGO
-		addTestCode('insertar', newNodeValue)
-
-		// OCULTAR MENU
-		hideNavMenu(1)
-		removeBanner()
 	}
 }
 
@@ -432,27 +433,34 @@ const updateNodeOnTree = () => {
 // BUSCAR NODO
 const findNodeOnTree = () => {
 	if (oldNodeValue.length > 0) {
-		if (treeStructure) {
-			if ('obtener' in treeStructure) {
-				const searchedNode = treeStructure.obtener(oldNodeValue.toString())
-				if (searchedNode) {
-					// AGREGAR MUESTRA DE CÓDIGO
-					addTestCode('obtener', `${oldNodeValue}`)
+		// @ts-ignore
+		if (treeStructure || isBTree) {
+			const searchedNode = isBTree
+				? bTreeStructure?.obtener(oldNodeValue)
+				: treeStructure?.obtener(oldNodeValue.toString())
+			if (searchedNode) {
+				// AGREGAR MUESTRA DE CÓDIGO
+				addTestCode('obtener', `${oldNodeValue}`)
 
-					// OCULTAR MENU
-					hideNavMenu(1)
-					removeBanner()
+				// OCULTAR MENU
+				hideNavMenu(1)
+				removeBanner()
 
-					// ALERTA
-					alert(
-						`Nodo encontrado:\nValor: ${oldNodeValue}\nAltura: ${
-							searchedNode.altura
-						}\nIzquierdo: ${searchedNode.izquierdo?.valor || null}\nDerecho: ${
-							searchedNode.derecho?.valor || null
-						}`,
-					)
-				} else alert('Nodo no encontrado')
-			}
+				// ALERTA
+				alert(
+					`Nodo encontrado:\nValor: ${
+						isBTree ? searchedNode.valores.join(',') : oldNodeValue
+					}\n${isBTree ? 'Grado' : 'Altura'}: ${
+						isBTree ? searchedNode.grado : searchedNode.altura
+					}\n${
+						isBTree
+							? ''
+							: `Izquierdo: ${
+									searchedNode.izquierdo?.valor || null
+							  }\nDerecho: ${searchedNode.derecho?.valor || null}`
+					}`,
+				)
+			} else alert('Nodo no encontrado')
 		}
 	}
 }
