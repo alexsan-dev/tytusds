@@ -48,7 +48,7 @@ class Queue {
 
 	//Encolar caracter con prioridad
 
-	encolar(valor: any, priority: any) {
+	insertar(valor: any, priority: any) {
 		let aux = new NodoSimpleQ(valor, priority)
 
 		if (this.raiz.priority > priority) {

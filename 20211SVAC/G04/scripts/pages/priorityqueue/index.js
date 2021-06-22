@@ -22,7 +22,7 @@ var Queue = (function () {
             return true;
         }
     };
-    Queue.prototype.encolar = function (valor, priority) {
+    Queue.prototype.insertar = function (valor, priority) {
         var aux = new NodoSimpleQ(valor, priority);
         if (this.raiz.priority > priority) {
             aux.siguiente = this.raiz;
