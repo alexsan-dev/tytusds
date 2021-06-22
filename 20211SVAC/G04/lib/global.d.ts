@@ -1,4 +1,7 @@
 interface JSONInputFile {
+	grado?: number
+	animacion?: number
+	repeticion?: number
 	categoria: string
 	nombre: string
 	valores: (number | string)[]
