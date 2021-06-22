@@ -104,7 +104,7 @@ class ArbolMerkle {
 			this.raiz = padre
 		}
 		//Agregar el valor y actualizar el padre
-		this.raiz = this.add(valor, this.raiz, this.raiz.altura)
+		this.raiz = this.add(valor, this.raiz, this.raiz?.altura)
 		this.raiz = this.actualizarPadre(this.raiz)
 	}
 
@@ -115,12 +115,14 @@ class ArbolMerkle {
 			raiz.derecho = this.add(valor, raiz.derecho, altura - 1)
 		} else {
 			//Si es hoja y no se le ha ingresado nada se agrega el valor
-			if (!this.agregado && !raiz.tieneValor) {
-				this.agregado = true
-				raiz.valor = valor
-				raiz.hash = this.hash(valor)
-				raiz.tieneValor = true
-				this.valores++
+			if (raiz) {
+				if (!this.agregado && !raiz?.tieneValor) {
+					this.agregado = true
+					raiz.valor = valor
+					raiz.hash = this.hash(valor)
+					raiz.tieneValor = true
+					this.valores++
+				}
 			}
 		}
 		return raiz

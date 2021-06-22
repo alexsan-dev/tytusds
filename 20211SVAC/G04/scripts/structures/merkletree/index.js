@@ -70,6 +70,7 @@ var ArbolMerkle = (function () {
             return [];
     };
     ArbolMerkle.prototype.insertar = function (valor) {
+        var _a;
         this.agregado = false;
         if (this.factor() <= 0) {
             var padre = new NodoMerkle(-1, 2);
@@ -85,7 +86,7 @@ var ArbolMerkle = (function () {
             this.maxValores = this.maxValores * 2;
             this.raiz = padre;
         }
-        this.raiz = this.add(valor, this.raiz, this.raiz.altura);
+        this.raiz = this.add(valor, this.raiz, (_a = this.raiz) === null || _a === void 0 ? void 0 : _a.altura);
         this.raiz = this.actualizarPadre(this.raiz);
     };
     ArbolMerkle.prototype.add = function (valor, raiz, altura) {
@@ -94,12 +95,14 @@ var ArbolMerkle = (function () {
             raiz.derecho = this.add(valor, raiz.derecho, altura - 1);
         }
         else {
-            if (!this.agregado && !raiz.tieneValor) {
-                this.agregado = true;
-                raiz.valor = valor;
-                raiz.hash = this.hash(valor);
-                raiz.tieneValor = true;
-                this.valores++;
+            if (raiz) {
+                if (!this.agregado && !(raiz === null || raiz === void 0 ? void 0 : raiz.tieneValor)) {
+                    this.agregado = true;
+                    raiz.valor = valor;
+                    raiz.hash = this.hash(valor);
+                    raiz.tieneValor = true;
+                    this.valores++;
+                }
             }
         }
         return raiz;

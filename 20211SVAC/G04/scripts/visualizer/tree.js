@@ -22,13 +22,21 @@ var setTreeStructure = function (treeInstance, instanceClassName, bTreeInstance,
     treeClassName = instanceClassName;
     isMerkleTree = isMerkleTreeInstance;
     if (treeStructure) {
-        treeStructure.insertar(4);
-        treeStructure.insertar(8);
-        treeStructure.insertar(2);
-        treeStructure.insertar(1);
-        treeStructure.insertar(3);
-        treeStructure.insertar(9);
-        treeStructure.insertar(7);
+        if (isMerkleTree) {
+            treeStructure.insertar(1);
+            treeStructure.insertar(2);
+            treeStructure.insertar(3);
+            treeStructure.insertar(4);
+        }
+        else {
+            treeStructure.insertar(4);
+            treeStructure.insertar(8);
+            treeStructure.insertar(2);
+            treeStructure.insertar(1);
+            treeStructure.insertar(3);
+            treeStructure.insertar(9);
+            treeStructure.insertar(7);
+        }
         maxTreeHeight = treeStructure.raiz.altura;
     }
     if (bTreeInstance) {
@@ -69,7 +77,9 @@ fileUploadCallback = function (json) {
             : new ArbolB(bTreeGrade);
     }
     valores.forEach(function (valor) {
-        newNodeValue = valor.toString();
+        newNodeValue = isMerkleTree
+            ? parseInt(valor.toString(), 16).toString()
+            : valor.toString();
         addNodeOnTree();
     });
     treeElementsLength = valores.length;
@@ -223,6 +233,7 @@ drawInCanvas = function () {
     }
 };
 var addNodeOnTree = function () {
+    var _a;
     if (newNodeValue.length > 0) {
         if (treeStructure || isBTree) {
             var finalStructure = isBTree ? bTreeStructure : treeStructure;
@@ -230,7 +241,7 @@ var addNodeOnTree = function () {
             if (repeatValues || (!repeatValues && searchedNode === null)) {
                 finalStructure === null || finalStructure === void 0 ? void 0 : finalStructure.insertar(newNodeValue);
                 if (!isBTree && treeStructure)
-                    maxTreeHeight = treeStructure.raiz.altura;
+                    maxTreeHeight = ((_a = treeStructure.raiz) === null || _a === void 0 ? void 0 : _a.altura) || 0;
                 setElementsLength(treeElementsLength + 1);
                 addTestCode('insertar', newNodeValue);
                 hideNavMenu(1);

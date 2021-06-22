@@ -32,14 +32,20 @@ const setTreeStructure = (
 
 	// ELEMENTOS INICIALES
 	if (treeStructure) {
-		treeStructure.insertar(4)
-		treeStructure.insertar(8)
-		treeStructure.insertar(2)
-		treeStructure.insertar(1)
-		treeStructure.insertar(3)
-		treeStructure.insertar(9)
-		treeStructure.insertar(7)
-
+		if (isMerkleTree) {
+			treeStructure.insertar(1)
+			treeStructure.insertar(2)
+			treeStructure.insertar(3)
+			treeStructure.insertar(4)
+		} else {
+			treeStructure.insertar(4)
+			treeStructure.insertar(8)
+			treeStructure.insertar(2)
+			treeStructure.insertar(1)
+			treeStructure.insertar(3)
+			treeStructure.insertar(9)
+			treeStructure.insertar(7)
+		}
 		// ACTUALIZAR ALTURA
 		maxTreeHeight = treeStructure.raiz.altura
 	}
@@ -98,7 +104,9 @@ fileUploadCallback = (json: JSONInputFile) => {
 
 	// AGREGAR AL ARBOL
 	valores.forEach((valor: string | number) => {
-		newNodeValue = valor.toString()
+		newNodeValue = isMerkleTree
+			? parseInt(valor.toString(), 16).toString()
+			: valor.toString()
 		addNodeOnTree()
 	})
 
@@ -402,7 +410,8 @@ const addNodeOnTree = () => {
 
 			if (repeatValues || (!repeatValues && searchedNode === null)) {
 				finalStructure?.insertar(newNodeValue)
-				if (!isBTree && treeStructure) maxTreeHeight = treeStructure.raiz.altura
+				if (!isBTree && treeStructure)
+					maxTreeHeight = treeStructure.raiz?.altura || 0
 
 				// RE DIMENSION
 				setElementsLength(treeElementsLength + 1)
