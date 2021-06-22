@@ -1,4 +1,9 @@
 "use strict";
+var __spreadArray = (this && this.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
+};
 var NodoBplus = (function () {
     function NodoBplus(grado, esHoja) {
         this.grado = grado;
@@ -101,6 +106,38 @@ var ArbolBplus = (function () {
     };
     ArbolBplus.prototype.insertar = function (valor) {
         this.raiz = this.insertarNodo(valor, this.raiz);
+    };
+    ArbolBplus.prototype.obtener = function (valor) {
+        var searchNode = null;
+        if (this.raiz !== null) {
+            var stack_1 = [this.raiz];
+            while (stack_1.length > 0) {
+                var node = stack_1.shift();
+                if (node.valores.map(function (value) { return value.toString(); }).includes(valor)) {
+                    searchNode = node;
+                }
+                else {
+                    node.hijos.forEach(function (hijo) { return stack_1.push(hijo); });
+                }
+            }
+        }
+        return searchNode;
+    };
+    ArbolBplus.prototype.toArray = function () {
+        if (this.raiz !== null) {
+            var stack = [this.raiz];
+            var stackCopy = __spreadArray([], this.raiz.valores);
+            while (stack.length > 0) {
+                var node = stack.shift();
+                if (node.valores)
+                    stackCopy = __spreadArray(__spreadArray([], stackCopy), node.valores);
+                if (node.hijos)
+                    stack = __spreadArray(__spreadArray([], stack), node.hijos);
+            }
+            return stackCopy;
+        }
+        else
+            return [];
     };
     ArbolBplus.prototype.insertarNodo = function (valor, raiz) {
         if (raiz == null) {

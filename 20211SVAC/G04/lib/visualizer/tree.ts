@@ -6,8 +6,9 @@ let treeClassName: string = ''
 let bTreeGrade: number = 0
 
 // ARBOLES B
-let bTreeStructure: ArbolB | null = null
+let bTreeStructure: ArbolB | ArbolBplus | null = null
 let isBTree: boolean = false
+let isBPlusTree: boolean = false
 
 // ELEMENTOS
 const inputGrade = document.getElementById('grade-input')
@@ -19,7 +20,8 @@ canvasBannerDif = 140
 const setTreeStructure = (
 	treeInstance: TreeStructure | null,
 	instanceClassName: string,
-	bTreeInstance: ArbolB,
+	bTreeInstance: ArbolB | ArbolBplus,
+	isBPlusTreeInstance: boolean = false,
 ) => {
 	// CONFIGURAR GLOBALES
 	treeStructure = treeInstance
@@ -41,8 +43,11 @@ const setTreeStructure = (
 
 	if (bTreeInstance) {
 		isBTree = true
-		bTreeGrade = 3
-		bTreeStructure = new ArbolB(3)
+		isBPlusTree = isBPlusTreeInstance
+		bTreeGrade = globalJSONInput?.grado || 3
+		bTreeStructure = isBPlusTree
+			? new ArbolBplus(bTreeGrade)
+			: new ArbolB(bTreeGrade)
 		bTreeStructure.insertar(1)
 		bTreeStructure.insertar(2)
 		bTreeStructure.insertar(3)
@@ -81,8 +86,11 @@ fileUploadCallback = (json: JSONInputFile) => {
 
 	// ITERAR
 	if (isBTree) {
-		bTreeGrade = globalJSONInput?.grado || 3
-		bTreeStructure = new ArbolB(bTreeGrade)
+		if (globalJSONInput && globalJSONInput.grado)
+			bTreeGrade = globalJSONInput.grado
+		bTreeStructure = isBPlusTree
+			? new ArbolBplus(bTreeGrade)
+			: new ArbolB(bTreeGrade)
 	}
 
 	// AGREGAR AL ARBOL

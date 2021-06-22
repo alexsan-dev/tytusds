@@ -11,9 +11,11 @@ var treeClassName = '';
 var bTreeGrade = 0;
 var bTreeStructure = null;
 var isBTree = false;
+var isBPlusTree = false;
 var inputGrade = document.getElementById('grade-input');
 canvasBannerDif = 140;
-var setTreeStructure = function (treeInstance, instanceClassName, bTreeInstance) {
+var setTreeStructure = function (treeInstance, instanceClassName, bTreeInstance, isBPlusTreeInstance) {
+    if (isBPlusTreeInstance === void 0) { isBPlusTreeInstance = false; }
     treeStructure = treeInstance;
     treeClassName = instanceClassName;
     if (treeStructure) {
@@ -28,8 +30,11 @@ var setTreeStructure = function (treeInstance, instanceClassName, bTreeInstance)
     }
     if (bTreeInstance) {
         isBTree = true;
-        bTreeGrade = 3;
-        bTreeStructure = new ArbolB(3);
+        isBPlusTree = isBPlusTreeInstance;
+        bTreeGrade = (globalJSONInput === null || globalJSONInput === void 0 ? void 0 : globalJSONInput.grado) || 3;
+        bTreeStructure = isBPlusTree
+            ? new ArbolBplus(bTreeGrade)
+            : new ArbolB(bTreeGrade);
         bTreeStructure.insertar(1);
         bTreeStructure.insertar(2);
         bTreeStructure.insertar(3);
@@ -54,8 +59,11 @@ fileUploadCallback = function (json) {
     if (editor)
         editor.innerHTML = "<strong style=\"color:var(--monoConstIce)\">const</strong> data <i style='color:var(--graySoda)'>=</i> <strong style='color:var(--keywordSoda)'>new</strong> <strong style=\"color:var(--monoClassIce)\">" + treeClassName + "</strong><strong style=\"color:var(--gray)\">&#x3c;</strong><strong style=\"color:var(--monoNumberIce)\">number</strong><strong style=\"color:var(--gray)\">&#x3e;</strong>()\n";
     if (isBTree) {
-        bTreeGrade = (globalJSONInput === null || globalJSONInput === void 0 ? void 0 : globalJSONInput.grado) || 3;
-        bTreeStructure = new ArbolB(bTreeGrade);
+        if (globalJSONInput && globalJSONInput.grado)
+            bTreeGrade = globalJSONInput.grado;
+        bTreeStructure = isBPlusTree
+            ? new ArbolBplus(bTreeGrade)
+            : new ArbolB(bTreeGrade);
     }
     valores.forEach(function (valor) {
         newNodeValue = valor.toString();
