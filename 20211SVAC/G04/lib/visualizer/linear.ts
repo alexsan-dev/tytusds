@@ -30,6 +30,7 @@ const setLinearStructure = (
 	circular: boolean = false,
 	likeStack: boolean = false,
 	insertModeType: InsertMode = 'end',
+	isPriority?: boolean,
 ) => {
 	// CONFIGURAR GLOBALES
 	linearStructure = newLinearStructure
@@ -41,18 +42,20 @@ const setLinearStructure = (
 
 	// ELEMENTOS INICIALES
 	if (linearStructure) {
-		linearStructure.insertar(1)
-		linearStructure.insertar(2)
-		linearStructure.insertar(3)
-		linearStructure.insertar(4)
-		linearStructure.insertar(5)
+		linearStructure.insertar(isPriority ? 6 : 1, isPriority ? 5 : undefined)
+		linearStructure.insertar(isPriority ? 5 : 2, isPriority ? 4 : undefined)
+		linearStructure.insertar(isPriority ? 4 : 3, isPriority ? 3 : undefined)
+		linearStructure.insertar(isPriority ? 3 : 4, isPriority ? 2 : undefined)
+		linearStructure.insertar(isPriority ? 2 : 5, isPriority ? 1 : undefined)
 
 		// AGREGAR UNO EXTRA PARA PILAS Y COLAS
-		if (isLikeStack) linearStructure.insertar(6)
+		if (isLikeStack)
+			linearStructure.insertar(isPriority ? 1 : 6, isPriority ? 0 : undefined)
 	}
 
 	// ACTUALIZAR TAMAÑO
 	linearStructureLength = linearStructure?.getTamaño() || 5
+	if (isLikeStack) canvasBannerDif += 20
 }
 
 // GUARDAR ARCHIVO
@@ -387,7 +390,8 @@ const addNode = (withAnimation: boolean = true) => {
 
 			const addOnStructure = () => {
 				if (linearStructure) {
-					if (insertMode === 'start') linearStructure.push(newNodeValue)
+					if (insertMode === 'start' && 'push' in linearStructure)
+						linearStructure.push(newNodeValue)
 					else if (insertMode === 'end') linearStructure.insertar(newNodeValue)
 
 					// RE DIMENSION

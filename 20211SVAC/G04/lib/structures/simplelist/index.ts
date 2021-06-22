@@ -37,7 +37,7 @@ class ListaSimple {
 
 	//METODOS DE LISTA -------------------------------------------------------------->
 	//Insertar al final
-	insertar(valor: any) {
+	insertar(valor: any, _priority?: any) {
 		if (this.raiz == null) {
 			this.raiz = new NodoSimple(valor)
 			this.tamaño++

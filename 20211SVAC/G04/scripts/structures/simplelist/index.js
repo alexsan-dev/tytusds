@@ -21,7 +21,7 @@ var ListaSimple = (function () {
     ListaSimple.prototype.getNodoActual = function () {
         return this.nodoActual.valor;
     };
-    ListaSimple.prototype.insertar = function (valor) {
+    ListaSimple.prototype.insertar = function (valor, _priority) {
         if (this.raiz == null) {
             this.raiz = new NodoSimple(valor);
             this.tamaño++;

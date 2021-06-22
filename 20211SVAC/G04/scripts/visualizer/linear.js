@@ -12,7 +12,7 @@ var nodeScaleIndex = -1;
 var opacityCounter = 0;
 var deleteIndex = -1;
 var opacityEndCallback = function () { };
-var setLinearStructure = function (newLinearStructure, linearClassName, simple, circular, likeStack, insertModeType) {
+var setLinearStructure = function (newLinearStructure, linearClassName, simple, circular, likeStack, insertModeType, isPriority) {
     if (circular === void 0) { circular = false; }
     if (likeStack === void 0) { likeStack = false; }
     if (insertModeType === void 0) { insertModeType = 'end'; }
@@ -23,15 +23,17 @@ var setLinearStructure = function (newLinearStructure, linearClassName, simple, 
     isCircular = circular;
     isSimple = simple;
     if (linearStructure) {
-        linearStructure.insertar(1);
-        linearStructure.insertar(2);
-        linearStructure.insertar(3);
-        linearStructure.insertar(4);
-        linearStructure.insertar(5);
+        linearStructure.insertar(isPriority ? 6 : 1, isPriority ? 5 : undefined);
+        linearStructure.insertar(isPriority ? 5 : 2, isPriority ? 4 : undefined);
+        linearStructure.insertar(isPriority ? 4 : 3, isPriority ? 3 : undefined);
+        linearStructure.insertar(isPriority ? 3 : 4, isPriority ? 2 : undefined);
+        linearStructure.insertar(isPriority ? 2 : 5, isPriority ? 1 : undefined);
         if (isLikeStack)
-            linearStructure.insertar(6);
+            linearStructure.insertar(isPriority ? 1 : 6, isPriority ? 0 : undefined);
     }
     linearStructureLength = (linearStructure === null || linearStructure === void 0 ? void 0 : linearStructure.getTamaño()) || 5;
+    if (isLikeStack)
+        canvasBannerDif += 20;
 };
 var saveJSONLinearFile = function () {
     if (linearStructure) {
@@ -230,7 +232,7 @@ var addNode = function (withAnimation) {
             nodeScaleIndex = -1;
             var addOnStructure = function () {
                 if (linearStructure) {
-                    if (insertMode === 'start')
+                    if (insertMode === 'start' && 'push' in linearStructure)
                         linearStructure.push(newNodeValue);
                     else if (insertMode === 'end')
                         linearStructure.insertar(newNodeValue);

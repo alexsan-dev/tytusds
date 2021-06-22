@@ -7,8 +7,8 @@ interface JSONInputFile {
 	valores: (number | string)[]
 }
 
-type LinearStructure = ListaSimple
-type LinearNode = NodoSimple
+type LinearStructure = ListaSimple | PriorityQueue
+type LinearNode = NodoSimple | NodoSimpleQ
 
 type TreeStructure = ArbolBinario | ArbolAvl
 type TreeNode = NodoBinario | NodoAvl
