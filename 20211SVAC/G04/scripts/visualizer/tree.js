@@ -12,12 +12,15 @@ var bTreeGrade = 0;
 var bTreeStructure = null;
 var isBTree = false;
 var isBPlusTree = false;
+var isMerkleTree = false;
 var inputGrade = document.getElementById('grade-input');
 canvasBannerDif = 140;
-var setTreeStructure = function (treeInstance, instanceClassName, bTreeInstance, isBPlusTreeInstance) {
+var setTreeStructure = function (treeInstance, instanceClassName, bTreeInstance, isBPlusTreeInstance, isMerkleTreeInstance) {
     if (isBPlusTreeInstance === void 0) { isBPlusTreeInstance = false; }
+    if (isMerkleTreeInstance === void 0) { isMerkleTreeInstance = false; }
     treeStructure = treeInstance;
     treeClassName = instanceClassName;
+    isMerkleTree = isMerkleTreeInstance;
     if (treeStructure) {
         treeStructure.insertar(4);
         treeStructure.insertar(8);
@@ -73,7 +76,7 @@ fileUploadCallback = function (json) {
     setElementsLength(valores.length);
 };
 drawInCanvas = function () {
-    var _a;
+    var _a, _b;
     if (canvasCtx) {
         canvasCtx.save();
         canvasCtx.restore();
@@ -114,7 +117,10 @@ drawInCanvas = function () {
                         canvasCtx.beginPath();
                         canvasCtx.fillStyle = isDarkMode ? '#aaa' : 'rgb(248, 248, 248)';
                         canvasCtx.lineWidth = 7;
-                        canvasCtx.arc(0, (maxTreeHeight - treeHeightIndex) * 100, 25, 0, 2 * Math.PI);
+                        if (isMerkleTree)
+                            canvasCtx.roundRect(-20, (maxTreeHeight - treeHeightIndex) * 100 - 15, 40, 40, 10);
+                        else
+                            canvasCtx.arc(0, (maxTreeHeight - treeHeightIndex) * 100, 25, 0, 2 * Math.PI);
                         canvasCtx.stroke();
                         canvasCtx.fill();
                         canvasCtx.closePath();
@@ -122,9 +128,13 @@ drawInCanvas = function () {
                         canvasCtx.textAlign = 'center';
                         canvasCtx.textBaseline = 'middle';
                         canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#011f3bcc';
-                        canvasCtx.font = "bold " + (20 - node.valor.toString().length * 2.5) + "px Montserrat";
+                        canvasCtx.font = "bold " + (20 - ((_a = node.valor) === null || _a === void 0 ? void 0 : _a.toString().length) * 2.5) + "px Montserrat";
                         canvasCtx.fillText(node.valor, treeHeightIndex > 1 ? 50 * (isRight ? 1 : -1) : 0, (maxTreeHeight - treeHeightIndex) * 100 +
                             (treeHeightIndex > 1 ? 0 : 50));
+                        if (isMerkleTree)
+                            canvasCtx.fillText("#" + node.hash, treeHeightIndex > 1 ? 50 * (isRight ? 1 : -1) : 0, (maxTreeHeight - treeHeightIndex) * 100 +
+                                (treeHeightIndex > 1 ? 0 : isMerkleTree ? 60 : 50) +
+                                (isMerkleTree ? 15 : 0));
                         canvasCtx.closePath();
                     }
                 }
@@ -144,7 +154,7 @@ drawInCanvas = function () {
                 var treeNode = bQueue.shift();
                 if (treeNode && treeNode.values.length) {
                     var level = treeNode === null || treeNode === void 0 ? void 0 : treeNode.level;
-                    var treeNodeLength = ((_a = treeNode.values) === null || _a === void 0 ? void 0 : _a.length) || 0;
+                    var treeNodeLength = ((_b = treeNode.values) === null || _b === void 0 ? void 0 : _b.length) || 0;
                     for (var nodeValuesIndex = 0; nodeValuesIndex < treeNodeLength; nodeValuesIndex++) {
                         var node = treeNode.values[nodeValuesIndex];
                         if (node.hijos.length)

@@ -1,2 +1,2 @@
 "use strict";
-setTreeStructure(null, 'ArbolB', new ArbolBplus(bTreeGrade), true);
+setTreeStructure(null, 'ArbolBP', new ArbolBplus(bTreeGrade), true);

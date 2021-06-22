@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 	<head>
-		<title>B Plus Tree</title>
+		<title>Merkle Tree</title>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
@@ -23,7 +23,7 @@
 							type="button"
 							aria-label="Home"
 							><i class="icon-home"></i></a
-						>Árbol B+
+						>Árbol de Merkle
 					</h1>
 					<ul>
 						<li>
@@ -141,15 +141,6 @@
 								<i class="icon-chevron-down"></i>
 							</label>
 							<div class="settings-menu-container">
-								<div class="input">
-									<label for="grade-input"><i class="icon-arrow-up-circle"></i></label>
-									<input
-										type="text"
-										id="grade-input"
-										oninput="onChangeInputGrade(event)"
-										placeholder="Grado"
-									/>
-								</div>
 								<ul>
 									<li>
 										<label class="btn" type="button" aria-label="Agregar">
@@ -193,14 +184,14 @@
 								<i class="icon-chevron-down"></i>
 							</label>
 							<div class="editor">
-								<pre><code><strong style="color:var(--monoConstIce)">const</strong> data <i style='color:var(--graySoda)'>=</i> <strong style='color:var(--keywordSoda)'>new</strong> <strong style="color:var(--monoClassIce)">ArbolBP</strong><strong style="color:var(--gray)">&#x3c;</strong><strong style="color:var(--monoNumberIce)">number</strong><strong style="color:var(--gray)">&#x3e;</strong>(3)
+								<pre><code><strong style="color:var(--monoConstIce)">const</strong> data <i style='color:var(--graySoda)'>=</i> <strong style='color:var(--keywordSoda)'>new</strong> <strong style="color:var(--monoClassIce)">ArbolMerk</strong><strong style="color:var(--gray)">&#x3c;</strong><strong style="color:var(--monoNumberIce)">number</strong><strong style="color:var(--gray)">&#x3e;</strong>()
 
-data.<strong style="color: var(--monoFuncGreen)">insertar</strong>(<strong style="color: var(--lightPurple)">1</strong>)
-data.<strong style="color: var(--monoFuncGreen)">insertar</strong>(<strong style="color: var(--lightPurple)">2</strong>)
-data.<strong style="color: var(--monoFuncGreen)">insertar</strong>(<strong style="color: var(--lightPurple)">3</strong>)
 data.<strong style="color: var(--monoFuncGreen)">insertar</strong>(<strong style="color: var(--lightPurple)">4</strong>)
-data.<strong style="color: var(--monoFuncGreen)">insertar</strong>(<strong style="color: var(--lightPurple)">5</strong>)
-data.<strong style="color: var(--monoFuncGreen)">insertar</strong>(<strong style="color: var(--lightPurple)">6</strong>)
+data.<strong style="color: var(--monoFuncGreen)">insertar</strong>(<strong style="color: var(--lightPurple)">8</strong>)
+data.<strong style="color: var(--monoFuncGreen)">insertar</strong>(<strong style="color: var(--lightPurple)">2</strong>)
+data.<strong style="color: var(--monoFuncGreen)">insertar</strong>(<strong style="color: var(--lightPurple)">1</strong>)
+data.<strong style="color: var(--monoFuncGreen)">insertar</strong>(<strong style="color: var(--lightPurple)">3</strong>)
+data.<strong style="color: var(--monoFuncGreen)">insertar</strong>(<strong style="color: var(--lightPurple)">9</strong>)
 data.<strong style="color: var(--monoFuncGreen)">insertar</strong>(<strong style="color: var(--lightPurple)">7</strong>)</code></pre>
 								<ul>
 									<li>
@@ -284,9 +275,9 @@ data.<strong style="color: var(--monoFuncGreen)">insertar</strong>(<strong style
 		</main>
 		<script src="../../../scripts/utils/colors.js"></script>
 		<script src="../../../scripts/utils/canvas.js"></script>
-		<script src="../../../scripts/structures/bplustree/index.js"></script>
+		<script src="../../../scripts/structures/merkletree/index.js"></script>
 		<script src="../../../scripts/visualizer/index.js"></script>
 		<script src="../../../scripts/visualizer/tree.js"></script>
-		<script src="../../../scripts/pages/bplustree/index.js"></script>
+		<script src="../../../scripts/pages/merkletree/index.js"></script>
 	</body>
 </html>

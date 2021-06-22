@@ -9,6 +9,7 @@ let bTreeGrade: number = 0
 let bTreeStructure: ArbolB | ArbolBplus | null = null
 let isBTree: boolean = false
 let isBPlusTree: boolean = false
+let isMerkleTree: boolean = false
 
 // ELEMENTOS
 const inputGrade = document.getElementById('grade-input')
@@ -22,10 +23,12 @@ const setTreeStructure = (
 	instanceClassName: string,
 	bTreeInstance: ArbolB | ArbolBplus,
 	isBPlusTreeInstance: boolean = false,
+	isMerkleTreeInstance: boolean = false,
 ) => {
 	// CONFIGURAR GLOBALES
 	treeStructure = treeInstance
 	treeClassName = instanceClassName
+	isMerkleTree = isMerkleTreeInstance
 
 	// ELEMENTOS INICIALES
 	if (treeStructure) {
@@ -187,13 +190,23 @@ drawInCanvas = () => {
 						canvasCtx.beginPath()
 						canvasCtx.fillStyle = isDarkMode ? '#aaa' : 'rgb(248, 248, 248)'
 						canvasCtx.lineWidth = 7
-						canvasCtx.arc(
-							0,
-							(maxTreeHeight - treeHeightIndex) * 100,
-							25,
-							0,
-							2 * Math.PI,
-						)
+
+						if (isMerkleTree)
+							canvasCtx.roundRect(
+								-20,
+								(maxTreeHeight - treeHeightIndex) * 100 - 15,
+								40,
+								40,
+								10,
+							)
+						else
+							canvasCtx.arc(
+								0,
+								(maxTreeHeight - treeHeightIndex) * 100,
+								25,
+								0,
+								2 * Math.PI,
+							)
 
 						// DIBUJAR BORDE Y CIRCULO
 						canvasCtx.stroke()
@@ -206,7 +219,7 @@ drawInCanvas = () => {
 						canvasCtx.textBaseline = 'middle'
 						canvasCtx.fillStyle = isDarkMode ? '#aaa' : '#011f3bcc'
 						canvasCtx.font = `bold ${
-							20 - node.valor.toString().length * 2.5
+							20 - node.valor?.toString().length * 2.5
 						}px Montserrat`
 
 						// TEXTO
@@ -216,6 +229,15 @@ drawInCanvas = () => {
 							(maxTreeHeight - treeHeightIndex) * 100 +
 								(treeHeightIndex > 1 ? 0 : 50),
 						)
+						if (isMerkleTree)
+							canvasCtx.fillText(
+								// @ts-ignore
+								`#${node.hash}`,
+								treeHeightIndex > 1 ? 50 * (isRight ? 1 : -1) : 0,
+								(maxTreeHeight - treeHeightIndex) * 100 +
+									(treeHeightIndex > 1 ? 0 : isMerkleTree ? 60 : 50) +
+									(isMerkleTree ? 15 : 0),
+							)
 
 						canvasCtx.closePath()
 					}
