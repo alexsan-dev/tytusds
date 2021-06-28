@@ -2,8 +2,8 @@
 let enableAddNode: boolean = false
 let enableAddEdge: boolean = false
 let selectedFirstEdge: number = 0
-let tmpGraphoNode: NodePosition | null = null
 let mouseIsDown: boolean = false
+let tmpGraphoNode: NodePosition | null = null
 
 // ARREGLO DE GRAFOS
 const edgesArray: EdgeJoin[] = []
