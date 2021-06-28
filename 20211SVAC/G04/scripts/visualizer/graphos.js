@@ -13,8 +13,8 @@ var __assign = (this && this.__assign) || function () {
 var enableAddNode = false;
 var enableAddEdge = false;
 var selectedFirstEdge = 0;
-var tmpGraphoNode = null;
 var mouseIsDown = false;
+var tmpGraphoNode = null;
 var edgesArray = [];
 var nodesArray = [
     {
