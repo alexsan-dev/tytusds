@@ -22,6 +22,7 @@ import './NavbarInter.css'
 
 let count = 0;
 export default class NavbarInter extends Component {
+
     state = {
       estrutura : null,
       busqueda: "",
@@ -109,7 +110,7 @@ export default class NavbarInter extends Component {
       this.setState ({fileDownloadUrl: fileDownloadUrl}, 
         () => {
           this.dofileDownload.click(); 
-          URL.revokeObjectURL(fileDownloadUrl);  // free up storage--no longer needed.
+          URL.revokeObjectURL(fileDownloadUrl); 
           this.setState({fileDownloadUrl: ""})
       })    
 
@@ -125,7 +126,7 @@ export default class NavbarInter extends Component {
      this.setState ({fileDownloadUrl: fileDownloadUrl}, 
        () => {
          this.dofileDownload.click(); 
-         URL.revokeObjectURL(fileDownloadUrl);  // free up storage--no longer needed.
+         URL.revokeObjectURL(fileDownloadUrl); 
          this.setState({fileDownloadUrl: ""})
      })    
 
@@ -161,6 +162,9 @@ export default class NavbarInter extends Component {
             
           </div>
         )
+
+
+
       }else{
         if(this.state.nombre == "Ordenamiento Selección" ||
            this.state.nombre == "Ordenamiento Inserción" ||
@@ -226,6 +230,7 @@ export default class NavbarInter extends Component {
           )
         }else if(this.state.nombre == "Arbol B"
         ||this.state.nombre == "Arbol B+"
+        ||this.state.nombre == "Arbol Merkle"
         ){
     return (
       <div>

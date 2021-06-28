@@ -46,6 +46,10 @@ class ArbolMerkle{
 
     insertar(valor:any){
         this.agregado = false
+<<<<<<< HEAD
+=======
+        valor = this.hash(valor)
+>>>>>>> c0c92135710ea9b49c4646d077af628e801d733f
         if(this.factor() <= 0){
             //Creando el Padre con izquierdo valor a la raiz
             let padre = new NodoMerkle(-1, 2)
@@ -88,6 +92,7 @@ class ArbolMerkle{
         return raiz
     }
 
+<<<<<<< HEAD
     eliminar(valor:any){
         this.raiz = this.delete(valor, this.raiz, this.raiz.altura)
         this.raiz = this.actualizarPadre(this.raiz)
@@ -131,6 +136,11 @@ class ArbolMerkle{
     private crecer(raiz:NodoMerkle, altura:number){
         if(altura > 0){
             raiz = new NodoMerkle(-1, altura)
+=======
+    private crecer(raiz:NodoMerkle, altura:number){
+        if(altura > 0){
+            raiz = new NodoMerkle(this.hash(-1), altura)
+>>>>>>> c0c92135710ea9b49c4646d077af628e801d733f
             raiz.izquierdo = this.crecer(raiz.izquierdo, altura-1)
             raiz.derecho = this.crecer(raiz.derecho, altura-1)
         }
@@ -163,4 +173,7 @@ class ArbolMerkle{
     }
 
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> c0c92135710ea9b49c4646d077af628e801d733f

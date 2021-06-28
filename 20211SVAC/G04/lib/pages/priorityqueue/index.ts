@@ -62,8 +62,11 @@ class Queue{
             aux.siguiente = this.raiz
 
             this.raiz = aux
+<<<<<<< HEAD
 
             this.tamaño++
+=======
+>>>>>>> c0c92135710ea9b49c4646d077af628e801d733f
         }
         else{
 
@@ -76,11 +79,21 @@ class Queue{
 
             this.raiz.siguiente = aux;
 
+<<<<<<< HEAD
             this.tamaño++
 
         }
 
         return this.raiz
+=======
+        }
+
+        return this.raiz
+
+
+
+
+>>>>>>> c0c92135710ea9b49c4646d077af628e801d733f
     }
 
 
