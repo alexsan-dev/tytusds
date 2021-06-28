@@ -386,7 +386,7 @@ main > #topbar-tabs > ul > li > button:hover {
 main > #cards {
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);
-	grid-template-rows: repeat(4, 100px);
+	grid-template-rows: repeat(6, 100px);
 	grid-gap: 30px;
 }
 
@@ -468,6 +468,22 @@ main > #cards > .flip-card:nth-child(5) .card-content > img {
 	left: 45px;
 	height: 150%;
 	object-fit: contain;
+}
+
+main > #cards > .flip-card:nth-child(6) {
+	grid-column: 3/6;
+	grid-row: 5/7;
+}
+
+main > #cards > .flip-card:nth-child(6) > .flip-card-inner > .card-content,
+main > #cards > .flip-card:nth-child(6) > .flip-card-inner > .card-list {
+	background-color: var(--lightRose);
+}
+
+main > #cards > .flip-card:nth-child(6) .card-content > img {
+	position: relative;
+	left: 40px;
+	top: 10px;
 }
 
 main > #cards > .flip-card {

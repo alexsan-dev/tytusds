@@ -104,9 +104,7 @@ fileUploadCallback = (json: JSONInputFile) => {
 
 	// AGREGAR AL ARBOL
 	valores.forEach((valor: string | number) => {
-		newNodeValue = isMerkleTree
-			? parseInt(valor.toString(), 16).toString()
-			: valor.toString()
+		newNodeValue = valor.toString()
 		addNodeOnTree()
 	})
 

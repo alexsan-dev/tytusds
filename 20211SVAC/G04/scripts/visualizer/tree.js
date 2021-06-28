@@ -77,9 +77,7 @@ fileUploadCallback = function (json) {
             : new ArbolB(bTreeGrade);
     }
     valores.forEach(function (valor) {
-        newNodeValue = isMerkleTree
-            ? parseInt(valor.toString(), 16).toString()
-            : valor.toString();
+        newNodeValue = valor.toString();
         addNodeOnTree();
     });
     treeElementsLength = valores.length;

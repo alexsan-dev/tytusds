@@ -13,6 +13,25 @@ type LinearNode = NodoSimple | NodoSimpleQ
 type TreeStructure = ArbolBinario | ArbolAvl
 type TreeNode = NodoBinario | NodoAvl
 
+interface NodePosition {
+	x: number
+	y: number
+	value: string
+}
+
+interface EdgePosition {
+	x: number
+	y: number
+	color: string
+	isDouble: boolean
+	randPhase: number
+}
+
+interface EdgeJoin {
+	origin: EdgePosition
+	dest: EdgePosition | null
+}
+
 interface BTreeData {
 	values: NodoB[]
 	level: number
